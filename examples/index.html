@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Grammar & Content Plugin - HTML Integration Example</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .header h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .editor-wrapper {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .editor-label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .editor {
+      width: 100%;
+      height: 300px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .editor:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .info-box {
+      background: #e3f2fd;
+      border: 1px solid #2196F3;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      color: #1565c0;
+      font-size: 14px;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+
+    .btn-secondary:hover {
+      background: #e8e8e8;
+    }
+
+    .instructions {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .instructions h2 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .instructions li {
+      margin-bottom: 10px;
+    }
+
+    .instructions code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+      color: #c7254e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 AI Grammar & Content Plugin</h1>
+      <p>Web-based office suite plugin with offline support. Check grammar, get synonyms, generate content, and more!</p>
+    </div>
+
+    <div class="instructions">
+      <h2>📖 How to Use</h2>
+      <ol>
+        <li>Type or paste text in the editor below</li>
+        <li>The plugin panel will appear on the bottom right</li>
+        <li>Use the tabs to check grammar, find synonyms, or generate content</li>
+        <li>Download offline data for use without internet connection</li>
+        <li>Configure AI models and settings in the Settings tab</li>
+      </ol>
+    </div>
+
+    <div class="editor-wrapper">
+      <label class="editor-label">📝 Text Editor - Start typing or paste your text here</label>
+      <textarea id="main-editor" class="editor" placeholder="Type or paste your text here...\n\nThe plugin will automatically appear in the bottom right corner.\n\nExample: 'Their is a mistake in this sentense.'"></textarea>
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="window.EditorAIPlugin?.analyzeText?.(document.getElementById('main-editor').value)">✓ Check Grammar</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('main-editor').value = ''">🗑️ Clear</button>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>💡 Features:</strong>
+      Grammar checking • Spelling detection • Synonym suggestions • Content generation • Article writing • Offline mode • Multiple AI models (OpenAI, Gemini, Claude)
+    </div>
+  </div>
+
+  <!-- Plugin Script - Include this in your HTML -->
+  <script>
+    // Initialize the plugin when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if the plugin is available
+      if (window.EditorAIPlugin) {
+        console.log('✓ AI Grammar & Content Plugin loaded successfully');
+        
+        // Initialize with default settings
+        window.EditorAIPlugin.init({
+          aiModel: 'local',
+          enableOfflineMode: true,
+          correctionMode: 'suggestion'
+        });
+      } else {
+        console.warn('⚠️ Plugin not loaded. Make sure to include the plugin script.');
+      }
+    });
+  </script>
+
+  <!-- The actual plugin will be loaded here in production -->
+  <!-- Include the compiled plugin script: -->
+  <!-- <script src="path/to/editor-ai-plugin.umd.js"></script> -->
+  
+  <!-- For development, the HTMLCompatibilityLayer handles initialization -->
+</body>
+</html>
